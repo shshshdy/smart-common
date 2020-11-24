@@ -26,6 +26,7 @@ namespace Smart.Application.Systems
         /// </summary>
         public void CreatAllPermissions()
         {
+            //TODO 给用户扩展
             var fis = typeof(Consts).GetFields();
             foreach (var fieldInfo in fis)
             {
