@@ -19,6 +19,7 @@ namespace Smart.Application.Systems
     /// <summary>
     /// 系统服务
     /// </summary>
+    [ApiExplorerSettings(GroupName = "Smart")]
     [DynamicWebApi]
     [SMAuthorize]
     public partial class SystemService : BaseService<SystemService>, ISystemService

@@ -26,6 +26,7 @@ namespace Smart.Application.Users
     /// <summary>
     /// 用户服务
     /// </summary>
+    [ApiExplorerSettings(GroupName ="Smart")]
     [SMAuthorize]
     [DynamicWebApi]
     public class UserService : BaseService<UserService>, IUserService

@@ -40,7 +40,8 @@ namespace Smart.Host.Extensions
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.StackTrace);
+                Console.Write(ex.StackTrace);
+                
                 _logger.LogError("Unhandled exception....", ex);
                 var msg = JsonConvert.SerializeObject(new ResponseOutput
                 {

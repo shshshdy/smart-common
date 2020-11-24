@@ -27,6 +27,7 @@ namespace Smart.Application.Files
     /// <summary>
     /// 文件服务
     /// </summary>
+    [ApiExplorerSettings(GroupName = "Smart")]
     [DynamicWebApi]
     [SMAuthorize]
     public class SysFileService : BaseService<SysFileService>, ISysFileService

@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using Autofac;
+using Autofac.Extras.DynamicProxy;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Panda.DynamicWebApi;
 using Smart.Application;
+using Smart.Application.Systems.interfaces;
 using Smart.Host.Converters;
 using Smart.Host.Helpers;
 using Smart.Infrastructure.Configs;
@@ -12,6 +16,9 @@ using Smart.Infrastructure.Configs.Helper;
 using Smart.Infrastructure.Freesql;
 using System;
 using System.IO;
+using System.Reflection;
+using Smart.Host.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace Smart.Host
 {
@@ -20,10 +27,10 @@ namespace Smart.Host
     /// </summary>
     public class SMStartup
     {
-        private readonly AppConfig _appConfig;
-        private readonly DbConfig _dbConfig;
-        private readonly JwtConfig _jwtConfig;
-        private readonly string _corsName = "AllowCros";
+        protected readonly AppConfig _appConfig;
+        protected readonly DbConfig _dbConfig;
+        protected readonly JwtConfig _jwtConfig;
+        protected readonly string _corsName = "AllowCros";
         /// <summary>
         /// 
         /// </summary>
@@ -36,10 +43,10 @@ namespace Smart.Host
         }
 
         /// <summary>
-        /// 注册跨域、
+        /// 注册smart服务
         /// </summary>
         /// <param name="services"></param>
-        protected void AddSMServices(IServiceCollection services)
+        protected void AddConfigureServices(IServiceCollection services)
         {
             //跨域设置
             services.AddCors(x =>
@@ -74,16 +81,15 @@ namespace Smart.Host
 
             services.AddAutoMapper(typeof(AutoMapperConfigs));
 
-
             if (_appConfig.Swagger)
             {
                 services.AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo
+                    c.SwaggerDoc("Smart", new OpenApiInfo
                     {
-                        Version = "v1",
+                        Version = "Smart",
                         Title = "Crypto Smart",
-                        Description = "Smart基础",
+                        Description = "Smart Base",
                         Contact = new OpenApiContact
                         {
                             Name = "ssd",
@@ -91,6 +97,7 @@ namespace Smart.Host
                             Url = new Uri("http://cnblogs.com/shshshdy"),
                         },
                     });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "api说明", Version = "v1" });
                     // TODO:一定要返回true！
                     c.DocInclusionPredicate((doc, des) => true);
                     //jwt配置
@@ -119,17 +126,139 @@ namespace Smart.Host
                     });
                     // 加载程序集的xml描述文档
                     var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    var xmlFile = "Smart.Host.xml";
+                    var xmlFile = "Smart.WebHost.xml";
                     var xmlPath = Path.Combine(baseDirectory, xmlFile);
+                    Console.WriteLine(xmlPath);
                     c.IncludeXmlComments(xmlPath);
 
                     xmlFile = "Smart.Application.xml";
                     xmlPath = Path.Combine(baseDirectory, xmlFile);
                     c.IncludeXmlComments(xmlPath);
+
+                    var xmls = AddSwaggerDocs();
+                    if (xmls.Length != 0)
+                    {
+                        foreach(var item in xmls)
+                        {
+                            c.IncludeXmlComments(item);
+                        }
+                    }
                 });
             }
+
             //动态webapi 
             services.AddDynamicWebApi();
+        }
+
+        /// <summary>
+        /// 添加app配置
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        protected void AddConfigure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            //app.ApplicationServices.GetAutofacRoot()//获取容器对象
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+            app.UseStaticFiles();
+
+            //跨域设置
+            app.UseCors(_corsName);
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseCustomExceptionMiddleware();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            });
+
+            InitData(app);
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/Smart/swagger.json", "Crypto Smart");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Crypto 云博");
+                // 访问Swagger的路由后缀
+                c.RoutePrefix = "swagger";
+            });
+            //IdentityModelEventSource.ShowPII = true;
+        }
+        /// <summary>
+        /// 添加swagger文档注释
+        /// </summary>
+        protected virtual string[] AddSwaggerDocs()
+        {
+            var arr= new string[0];
+            return arr;
+        }
+        /// <summary>
+        /// 初始化数据
+        /// 可重写加入热数据
+        /// </summary>
+        /// <param name="applicationBuilder"></param>
+        protected virtual void InitData(IApplicationBuilder applicationBuilder)
+        {
+            var systemService = applicationBuilder.ApplicationServices.GetService(typeof(ISystemService)) as ISystemService;
+
+            systemService.CreatAllPermissions();
+        }
+
+        /// <summary>
+        /// 注入Smart
+        /// </summary>
+        protected void RegisterSmart(ContainerBuilder builder)
+        {
+            builder.Register(c => _jwtConfig).SingleInstance();
+            builder.Register(c => _appConfig).SingleInstance();
+
+            //service
+            Register(builder, "Smart.Application", "Service");
+            //manager
+            Register(builder, "Smart.Domain");
+        }
+
+        /// <summary>
+        /// 程序集注入
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="nameSpace">程序集名称</param>
+        /// <param name="endPart">结尾名</param>
+        protected void Register(ContainerBuilder builder,string nameSpace, string endPart)
+        {
+            Assembly manager = Assembly.Load(nameSpace);
+            builder.RegisterAssemblyTypes(manager)
+            .Where(t => t.Name.EndsWith(endPart))
+            .AsImplementedInterfaces()
+            .InstancePerDependency()
+            .EnableInterfaceInterceptors();
+        }
+        /// <summary>
+        /// 程序集注入
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="nameSpace">程序集名称</param>
+        protected void Register(ContainerBuilder builder, string nameSpace)
+        {
+            Assembly manager = Assembly.Load(nameSpace);
+            builder.RegisterAssemblyTypes(manager)
+            .AsImplementedInterfaces()
+            .InstancePerDependency()
+            .EnableInterfaceInterceptors();
         }
     }
 }
