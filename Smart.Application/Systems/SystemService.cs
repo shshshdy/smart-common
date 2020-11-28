@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Panda.DynamicWebApi.Attributes;
+using Smart.Domain;
 
 namespace Smart.Application.Systems
 {
@@ -27,6 +28,7 @@ namespace Smart.Application.Systems
         ISysDicDetailManager _systemManager;
         ISysDicManager _dicManager;
         IPermissionManager _permissionManager;
+        IEntitiyEnumAssembly _entitiyEnumAssembly;
         IMapper _mapper;
         /// <summary>
         /// 
@@ -36,11 +38,12 @@ namespace Smart.Application.Systems
         /// <param name="mapper"></param>
         /// <param name="permissionManager"></param>
         /// <param name="logger"></param>
-        public SystemService(ISysDicDetailManager systemManager, ISysDicManager dicManager, IMapper mapper,IPermissionManager permissionManager, ILogger<SystemService> logger) : base(logger)
+        public SystemService(ISysDicDetailManager systemManager, IEntitiyEnumAssembly entitiyEnumAssembly, ISysDicManager dicManager, IMapper mapper,IPermissionManager permissionManager, ILogger<SystemService> logger) : base(logger)
         {
             _systemManager = systemManager;
             _dicManager = dicManager;
             _permissionManager = permissionManager;
+            _entitiyEnumAssembly = entitiyEnumAssembly;
             _mapper = mapper;
         }
 
@@ -170,7 +173,11 @@ namespace Smart.Application.Systems
         [AllowAnonymous]
         public IResponseOutput GetSystemEnums()
         {
-            var result = EnumHelper.GetEntitiyEnums();
+            if (_entitiyEnumAssembly == null)
+            {
+                return Error("null assembly");
+            }
+            var result = EnumHelper.GetEntitiyEnums(_entitiyEnumAssembly.Assembly);
             return Ok(result);
         }
     }

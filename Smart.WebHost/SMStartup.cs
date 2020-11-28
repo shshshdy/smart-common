@@ -54,6 +54,7 @@ namespace Smart.Host
                 return typeof(Permissions);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
