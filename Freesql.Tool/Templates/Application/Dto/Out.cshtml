@@ -1,0 +1,45 @@
+﻿@using Freesql.Tool.Helpers;
+@using Freesql.Tool.Models;
+@{
+
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+    var list = new List<Property>();
+    var isReflection = gen.AssemblyOrConnect.ToLower().IndexOf(".dll") != -1;
+    var isEnum = false;
+    var classPath = $"{gen.NameSpace}.Domain.Entities.{gen.TableName}";
+    if (isReflection)
+    {
+        list = ReflectionHelper.GetProperties(gen.AssemblyOrConnect, classPath, out isEnum);
+    }
+    else
+    {
+        //TODO 从数据库获取列信息
+    }
+    var description = isReflection ? ReflectionHelper.GetDescription(gen.AssemblyOrConnect, classPath) : "SourceTable.Description";
+}
+@{
+    if (isEnum)
+    {
+        @:using @(gen.NameSpace).Domain.Entities.Enums;
+    }
+}
+using Smart.Application.Dtos;
+using System;
+
+namespace @(gen.NameSpace).Application.@(gen.Folder).Dto
+{
+    ///<summary>
+    ///@(description)输出Dto
+    ///
+</summary>
+    public class @(gen.TableName)OutputDto : BaseOutputDto
+    {
+@{
+    foreach (var item in list)
+    {
+        @:public @(item.Type) @(item.Name) { get; set; }
+    }
+
+}
+    }
+}

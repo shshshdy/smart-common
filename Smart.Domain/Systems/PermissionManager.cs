@@ -53,5 +53,10 @@ namespace Smart.Domain.Systems
             var result = _responsitory.InsertOrUpdate(permission);
             return result;
         }
+
+        public Permission Get(string path)
+        {
+           return _responsitory.Where(p => p.Path == path).First();
+        }
     }
 }

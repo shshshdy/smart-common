@@ -1,0 +1,57 @@
+﻿@using Freesql.Tool.Helpers
+@{
+
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+//=============================================================
+// 创建人:            @gen.UserInfo.Author
+// 创建时间:          @gen.UserInfo.CreateTime
+// 邮箱：             @gen.UserInfo.Email
+//==============================================================
+using @(gen.NameSpace).Domain.Entities;
+using @(gen.NameSpace).Domain.Responsitories;
+using @(gen.NameSpace).Domain.@(gen.Folder).Interfaces;
+using System.Collections.Generic;
+
+namespace @(gen.NameSpace).Domain.@gen.Folder
+{
+    public class @(gen.TableName)Manager : I@(gen.TableName)Manager
+    {
+        I@(gen.TableName)Responsitory _responsitory;
+        public @(gen.TableName)Manager(I@(gen.TableName)Responsitory responsitory)
+        {
+            _responsitory = responsitory;
+        }
+
+        public IEnumerable<@(gen.TableName)> GetAll()
+        {
+            var result = _responsitory.Select.ToList();
+            return result;
+        }
+
+        public IEnumerable<@(gen.TableName)> GetAll(int pageIndex, int pageSize)
+        {
+            var result = _responsitory.Where(p => true).OrderBy(p => p.Id).ToPageList(pageIndex, pageSize);
+            return result;
+        }
+
+        public @(gen.TableName) Get(long id)
+        {
+            var user = _responsitory.Where(p => p.Id == id).First();
+            return user;
+        }
+
+        public long Count()
+        {
+            var count = _responsitory.Select.Count();
+            return count;
+        }
+
+      
+        public @(gen.TableName) CreatOrUpdate(@(gen.TableName) @(gen.TableName.ToFirstLow()))
+        {
+            var result = _responsitory.InsertOrUpdate(@(gen.TableName.ToFirstLow()));
+            return result;
+        }
+    }
+}

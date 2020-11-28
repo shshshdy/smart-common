@@ -1,0 +1,18 @@
+﻿@using Freesql.Tool.Helpers
+@{
+
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+
+using Smart.Application.Dtos;
+
+namespace @(gen.NameSpace).Application.@(gen.Folder).Dto
+{
+    ///<summary>
+    ///输入Dto
+    ///</summary>
+    public class @(gen.TableName)InputDto:InputDto
+    {
+
+    }
+}

@@ -1,0 +1,148 @@
+﻿@using Freesql.Tool.Helpers;
+@using Freesql.Tool.Models;
+@{
+
+    var gen = Model as RazorTemplateModel;
+    var list = new List<Property>();
+    var isReflection = gen.AssemblyOrConnect.ToLower().IndexOf(".dll") != -1;
+    var classPath = $"{gen.NameSpace}.Domain.Entities.{gen.TableName}";
+    if (isReflection)
+    {
+        list = ReflectionHelper.GetProperties(gen.AssemblyOrConnect, classPath, out bool isEnum);
+    }
+    else
+    {
+        //TODO 从数据库获取列信息
+    }
+    var description = isReflection ? ReflectionHelper.GetDescription(gen.AssemblyOrConnect, classPath) : "SourceTable.Description";
+}
+<template>
+    <d2-container>
+        <template slot="header">
+            <el-button type="primary" @@click="isShow=true;">新增</el-button>
+        </template>
+        <el-table :data="tableData" stripe style="width: 100%">
+            @{
+                foreach (var item in list)
+                {
+                    if (false)//TODO Linked description
+                    {
+            <el-table-column label="@(item.Description)" width="180">
+                <template slot-scope="scope">
+                    <el-button type="text" @@click="show(scope.row)" size="small">{{scope.row.@(item.Name)}}</el-button>
+                </template>
+            </el-table-column>
+                    }
+                    else
+                    {
+            <el-table-column prop="@(item.Name.ToFirstLow())" label="@(item.Description)"></el-table-column>
+                    }
+                }
+            }
+            <el-table-column fixed="right" label="操作" width="100">
+                <template slot-scope="scope">
+                    <el-button type="text" @@click="update(scope.row)" size="small">编辑</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination @@size-change="onSizeChange"
+                       @@current-change="onCurrentChange"
+                       :current-page="search.pageIndex"
+                       :page-sizes="[5,10, 20, 50, 100]"
+                       :page-size="search.pageSize"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalSize"></el-pagination>
+        <el-dialog title="@(description)编辑" :visible.sync="isShow" @@close="reset" width="80%">
+            <el-form :inline="true"
+                     :model="@(gen.TableName.ToFirstLow())"
+                     ref="form"
+                     size="mini"
+                     label-width="100px"
+                     style="margin-top: -18px;">
+                <el-input type="hidden" v-model="@(gen.TableName.ToFirstLow()).version" />
+                @{
+                foreach (var item in list)//TODO description
+                {
+                <el-form-item label="@(item.Description)" prop="@(item.Name.ToFirstLow())">
+                    @{
+                        if (item.Type.IndexOf("bool") != -1)
+                        {
+                    <el-switch v-model="@(gen.TableName.ToFirstLow()).@(item.Name.ToFirstLow())" active-color="#409EFF" inactive-color="#DCDFE6" />
+                        }
+                        else
+                        {
+                    <el-input v-model="@(gen.TableName.ToFirstLow()).@(item.Name.ToFirstLow())" class="input" />
+                        }
+                    }
+                </el-form-item>
+                }
+                }
+            </el-form>
+
+            <div class="buttons">
+                <el-button type="primary" icon="el-icon-check" circle @@click="onSubmit"></el-button>
+                <el-button icon="el-icon-close" circle @@click="isShow=false;"></el-button>
+            </div>
+        </el-dialog>
+    </d2-container>
+</template>
+<script>
+import { mapActions, mapState } from "vuex";
+import util from "@@/libs/util";
+
+export default {
+    name: "@(gen.TableName.ToFirstLow())",
+    data() {
+        return {
+            tableData: [],
+            isShow: false,
+            isShowD: false,
+            totalSize: 0,
+            search: { pageIndex: 1, pageSize: 10 },
+            @(gen.TableName.ToFirstLow()): {},
+        };
+    },
+    computed: {
+        ...mapState("cloudb/@(gen.TableName.ToJsName())", ["list", "totalPageSize"]),
+    },
+    mounted() {
+        this.reset();
+        this.initData();
+    },
+    methods: {
+        ...mapActions("cloudb/@(gen.TableName.ToJsName())", ["getAll", "register"]),
+            reset() {
+            this.@(gen.TableName.ToFirstLow()) = { id: 0 };
+        },
+        update(row) {
+            console.log(row);
+        },
+        onSubmit() {
+
+        },
+        onCurrentChange(val) {
+            this.search.pageIndex = val;
+            this.initData();
+        },
+        onSizeChange(val) {
+            this.search.pageSize = val;
+            this.initData();
+        },
+        initData() {
+            this.getAll(this.search).then(() => {
+                this.tableData = this.list;
+                this.totalSize = this.totalPageSize;
+            });
+        },
+    }
+};
+</script>
+<style lang="scss" scoped>
+    .grid-content {
+        min-height: 36px;
+    }
+
+    .buttons {
+        text-align: right;
+    }
+</style>

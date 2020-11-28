@@ -11,6 +11,10 @@ namespace Smart.Infrastructure.Configs
     public class AppConfig
     {
         /// <summary>
+        /// 应用名称
+        /// </summary>
+        public string Name { get; set; } = "BaseSmart";
+        /// <summary>
         /// 默认密码
         /// </summary>
         public string DefaultPwd { get; set; }

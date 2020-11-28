@@ -1,0 +1,19 @@
+﻿@using Freesql.Tool.Helpers
+@{
+
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+
+using System.Collections.Generic;
+using @(gen.NameSpace).Application.Interfaces;
+using @(gen.NameSpace).Application.@(gen.Folder).Dto;
+using Smart.Application.Interfaces;
+using Smart.Infrastructure.Dto;
+
+namespace @(gen.NameSpace).Application.@(gen.Folder).interfaces
+{
+    public interface I@(gen.TableName)Service : IService<@(gen.TableName)InputDto, long>
+    {
+
+    }
+    }

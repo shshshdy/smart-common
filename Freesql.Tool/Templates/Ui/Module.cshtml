@@ -1,0 +1,46 @@
+﻿@using Freesql.Tool.Helpers;
+@{
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+import { Message, MessageBox } from 'element-ui'
+import util from '@@/libs/util.js'
+import router from '@@/router'
+import { GetAll, Register } from '@@api/@(gen.TableName.ToJsName())'
+
+export default {
+    namespaced: true,
+    state: {
+        list: {},
+        search:{},
+        totalPageSize: 0
+    },
+    actions: {
+        getAll({ state, dispatch }, search = { pageIndex: 1, pageSize: 10 }) {
+            state.search = search;
+            return new Promise((resolve, reject) => {
+                GetAll(search)
+                    .then(async res => {
+                        state.list = res.data.list;
+                        state.totalPageSize = res.data.totalPageSize;
+                        resolve();
+                    })
+                    .catch(err => {
+                        console.log('err: ', err)
+                        reject(err)
+                    })
+            });
+        },
+        register({ state }, model) {
+            return new Promise((resolve, reject) => {
+                Register(model)
+                    .then(async res => {
+                        resolve(res);
+                    })
+                    .catch(err => {
+                        console.log('err: ', err)
+                        reject(err)
+                    })
+            });
+        }
+    }
+}

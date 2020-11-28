@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Smart.Application.Interfaces;
 using Smart.Application.Systems.Dto;
 using Smart.Infrastructure.Dto;
@@ -39,7 +40,7 @@ namespace Smart.Application.Systems.interfaces
         /// <summary>
         /// 创建所有权限
         /// </summary>
-        void CreatAllPermissions();
+        void CreatAllPermissions(Type type);
         /// <summary>
         /// 获取字典
         /// </summary>

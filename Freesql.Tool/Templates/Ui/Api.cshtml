@@ -1,0 +1,21 @@
+﻿@using Freesql.Tool.Helpers;
+@{
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+import request from '@@/plugin/axios'
+
+export function GetAll (data) {
+  return request({
+    url: '/@(gen.TableName.ToFirstLow())Service/all',
+    method: 'get',
+    params:data
+  })
+}
+
+export function Register(data){
+  return request({
+    url: '/@(gen.TableName.ToFirstLow())Service/registerOrUpdate',
+    method: 'post',
+    data:data
+  })
+}

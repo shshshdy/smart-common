@@ -9,6 +9,11 @@ namespace Smart.Domain.Systems.Interfaces
 {
     public interface IPermissionManager: IManager<Permission>
     {
-
+        /// <summary>
+        /// 权限路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        Permission Get(string path);
     }
 }

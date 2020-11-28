@@ -1,0 +1,19 @@
+﻿@using Freesql.Tool.Helpers
+@{
+
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+//=============================================================
+// 创建人:            @gen.UserInfo.Author
+// 创建时间:          @gen.UserInfo.CreateTime
+// 邮箱：             @gen.UserInfo.Email
+//==============================================================
+using @(gen.NameSpace).Domain.Entities;
+
+namespace @(gen.NameSpace).Domain.@(gen.Folder).Interfaces
+{
+    public interface I@(gen.TableName)Manager: IManager<@(gen.TableName)>
+    {
+
+    }
+}

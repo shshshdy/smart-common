@@ -13,21 +13,29 @@ namespace Smart.Application.Systems
         /// 检查权限
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="Name"></param>
         /// <returns></returns>
-        [SMAuthorize(Consts.SystemUser)]
-        public bool CheckPermission(string path,string Name)
+        [SMAuthorize(Permissions.SystemUser)]
+        public bool CheckPermission(string path)
         {
-            
-            return false;
+            var result = _permissionManager.Get(path);
+            return result != null;
         }
         /// <summary>
         /// 创建所有权限
         /// </summary>
-        public void CreatAllPermissions()
+        public void CreatAllPermissions(Type type)
         {
-            //TODO 给用户扩展
-            var fis = typeof(Consts).GetFields();
+            CreatePermissions(type);
+            while (type.BaseType != null)
+            {
+                type = type.BaseType;
+                CreatePermissions(type);
+            }
+        }
+
+        private void CreatePermissions(Type type)
+        {
+            var fis = type.GetFields();
             foreach (var fieldInfo in fis)
             {
                 var value = fieldInfo.GetRawConstantValue().ToString();

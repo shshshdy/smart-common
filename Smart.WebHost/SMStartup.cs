@@ -19,6 +19,9 @@ using System.IO;
 using System.Reflection;
 using Smart.Host.Extensions;
 using Microsoft.Extensions.Hosting;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Smart.Host
 {
@@ -27,10 +30,30 @@ namespace Smart.Host
     /// </summary>
     public class SMStartup
     {
+        /// <summary>
+        /// app配置
+        /// </summary>
         protected readonly AppConfig _appConfig;
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
         protected readonly DbConfig _dbConfig;
+        /// <summary>
+        /// jwt验证配置
+        /// </summary>
         protected readonly JwtConfig _jwtConfig;
-        protected readonly string _corsName = "AllowCros";
+
+        private readonly string _corsName = "AllowCros";
+
+        /// <summary>
+        /// 权限定义,重写定义为 继承Permissions的类
+        /// </summary>
+        protected virtual Type PermissionClass
+        {
+            get {
+                return typeof(Permissions);
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -87,9 +110,9 @@ namespace Smart.Host
                 {
                     c.SwaggerDoc("Smart", new OpenApiInfo
                     {
-                        Version = "Smart",
-                        Title = "Crypto Smart",
-                        Description = "Smart Base",
+                        Version = "v1",
+                        Title = "Smart",
+                        Description = "Crypto Smart",
                         Contact = new OpenApiContact
                         {
                             Name = "ssd",
@@ -97,9 +120,25 @@ namespace Smart.Host
                             Url = new Uri("http://cnblogs.com/shshshdy"),
                         },
                     });
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "api说明", Version = "v1" });
-                    // TODO:一定要返回true！
-                    c.DocInclusionPredicate((doc, des) => true);
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = $"{_appConfig.Name} Api", Version = "v1" });
+                    //设置要展示的接口
+                    c.DocInclusionPredicate((docName, apiDes) =>
+                    {
+                        if (!apiDes.TryGetMethodInfo(out MethodInfo method))
+                            return false;
+                        /*使用ApiExplorerSettingsAttribute里面的GroupName进行特性标识
+                         * DeclaringType只能获取controller上的特性
+                         * 我们这里是想以action的特性为主
+                         * */
+                        var version = method.DeclaringType.GetCustomAttributes(true).OfType<ApiExplorerSettingsAttribute>().Select(m => m.GroupName);
+                        if (docName == "v1" && !version.Any())
+                            return true;
+                        //这里获取action的特性
+                        var actionVersion = method.GetCustomAttributes(true).OfType<ApiExplorerSettingsAttribute>().Select(m => m.GroupName);
+                        if (actionVersion.Any())
+                            return actionVersion.Any(v => v == docName);
+                        return version.Any(v => v == docName);
+                    });
                     //jwt配置
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                     {
@@ -128,7 +167,6 @@ namespace Smart.Host
                     var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     var xmlFile = "Smart.WebHost.xml";
                     var xmlPath = Path.Combine(baseDirectory, xmlFile);
-                    Console.WriteLine(xmlPath);
                     c.IncludeXmlComments(xmlPath);
 
                     xmlFile = "Smart.Application.xml";
@@ -138,7 +176,7 @@ namespace Smart.Host
                     var xmls = AddSwaggerDocs();
                     if (xmls.Length != 0)
                     {
-                        foreach(var item in xmls)
+                        foreach (var item in xmls)
                         {
                             c.IncludeXmlComments(item);
                         }
@@ -186,13 +224,22 @@ namespace Smart.Host
 
             });
 
+            #region 热数据及权限数据
+            var systemService = app.ApplicationServices.GetService(typeof(ISystemService)) as ISystemService;
+            systemService.CreatAllPermissions(PermissionClass);
+
+            if (!PermissionClass.IsSubclassOf(typeof(Permissions)))
+            {
+                systemService.CreatAllPermissions(typeof(Permissions));
+            }
             InitData(app);
+            #endregion
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/Smart/swagger.json", "Crypto Smart");
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Crypto 云博");
+                c.SwaggerEndpoint("/swagger/Smart/swagger.json", "SmartApi");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
                 // 访问Swagger的路由后缀
                 c.RoutePrefix = "swagger";
             });
@@ -203,7 +250,7 @@ namespace Smart.Host
         /// </summary>
         protected virtual string[] AddSwaggerDocs()
         {
-            var arr= new string[0];
+            var arr = new string[0];
             return arr;
         }
         /// <summary>
@@ -213,9 +260,7 @@ namespace Smart.Host
         /// <param name="applicationBuilder"></param>
         protected virtual void InitData(IApplicationBuilder applicationBuilder)
         {
-            var systemService = applicationBuilder.ApplicationServices.GetService(typeof(ISystemService)) as ISystemService;
-
-            systemService.CreatAllPermissions();
+            
         }
 
         /// <summary>
@@ -238,7 +283,7 @@ namespace Smart.Host
         /// <param name="builder"></param>
         /// <param name="nameSpace">程序集名称</param>
         /// <param name="endPart">结尾名</param>
-        protected void Register(ContainerBuilder builder,string nameSpace, string endPart)
+        protected void Register(ContainerBuilder builder, string nameSpace, string endPart)
         {
             Assembly manager = Assembly.Load(nameSpace);
             builder.RegisterAssemblyTypes(manager)

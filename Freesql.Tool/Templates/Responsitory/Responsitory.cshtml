@@ -1,0 +1,21 @@
+﻿@{
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+
+using @(gen.NameSpace).Domain.Entities;
+using @(gen.NameSpace).Domain.Responsitories;
+using Smart.Infrastructure.Authenticate;
+using Smart.Infrastructure.Freesql.Responsitories;
+using FreeSql;
+
+namespace @(gen.NameSpace).Repositories
+{
+    public class @(gen.TableName)Responsitory : RepositoryBase<@(gen.TableName)>
+    , I@(gen.TableName)Responsitory
+    {
+    public @(gen.TableName)Responsitory(IFreeSql orm, UnitOfWorkManager uow, IUser user) : base(orm, uow, user)
+    {
+
+    }
+    }
+    }

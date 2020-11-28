@@ -6,9 +6,9 @@ using System.Text;
 namespace Smart.Application
 {
     /// <summary>
-    /// 常量对象
+    /// 权限，定义方式为 "key|description"
     /// </summary>
-    public class Consts
+    public class Permissions
     {
         /// <summary>
         /// 系统管理
