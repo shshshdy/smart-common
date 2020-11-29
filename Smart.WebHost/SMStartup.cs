@@ -22,6 +22,7 @@ using Microsoft.Extensions.Hosting;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Smart.Host
 {

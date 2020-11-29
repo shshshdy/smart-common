@@ -2,6 +2,7 @@
 using System.IO;
 using Smart.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace Smart.Infrastructure.Configs.Helper
 {
@@ -17,9 +18,10 @@ namespace Smart.Infrastructure.Configs.Helper
         /// <param name="environmentName">环境名称</param>
         /// <param name="reloadOnChange">自动更新</param>
         /// <returns></returns>
-        private static IConfiguration Load(string fileName, string environmentName = "", string configPath= "Configs", bool reloadOnChange = false)
+        private static IConfiguration Load(string fileName, string environmentName = "", string configPath = "Configs", bool reloadOnChange = false)
         {
             var filePath = Path.Combine(AppContext.BaseDirectory, configPath);
+
             if (!Directory.Exists(filePath))
                 return null;
 
