@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Smart.Host</RootNamespace>
+    <Authors>shshshdy</Authors>
+    <PackageId>Smart.WebHost.Shshshdy</PackageId>
+    <Company>SmartSoft</Company>
+    <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

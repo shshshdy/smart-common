@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
+    <PackageReleaseNotes>DDD-基础库-FreeSql集成</PackageReleaseNotes>
+    <Authors>shshshdy</Authors>
+    <Company>SmartSoft</Company>
+    <PackageId>Smart.Infrastructure.Shshshdy</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

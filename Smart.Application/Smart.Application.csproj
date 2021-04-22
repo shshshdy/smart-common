@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>shshshdy</Authors>
+    <Company>SmartSoft</Company>
+    <PackageId>Smart.Application.Shshshdy</PackageId>
+    <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

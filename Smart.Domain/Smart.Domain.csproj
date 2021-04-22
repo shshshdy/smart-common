@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Description>DDD-业务层-权限、角色、基础字典、用户、文件处理封装</Description>
+    <PackageId>Smart.Domain.Shshshdy</PackageId>
+    <Authors>shshshdy</Authors>
+    <Company>SmartSoft</Company>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
