@@ -6,6 +6,7 @@
     <Company>SmartSoft</Company>
     <PackageId>Smart.Application.Shshshdy</PackageId>
     <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
+    <Description>DDD-服务封装，文件服务、管理员基本服务等。</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
