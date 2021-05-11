@@ -1,5 +1,5 @@
 # 使用方法
-每层使用对应nuget包
+每层使用对应nuget包，webhost为 webapi项目，其它为.net5 类库.
 ## 示例代码目录结构
 ```
 project
