@@ -256,4 +256,27 @@ public void ConfigureContainer(ContainerBuilder builder)
   }
 }
  ```
+## AutoMapperConfigs.cs
+```
+ public class AutoMapperConfigs : Smart.Application.AutoMapperConfigs
+ {
+     public AutoMapperConfigs()
+     {
 
+     }
+ }
+```
+## Permissions.cs
+```
+ public class Permissions : Smart.Application.Permissions
+ {
+
+ }
+```
+## EntitiyEnumAssembly.cs
+```
+public class EntitiyEnumAssembly : IEntitiyEnumAssembly
+{
+    public Assembly Assembly => typeof(EntitiyEnumAssembly).Assembly;
+}
+```
