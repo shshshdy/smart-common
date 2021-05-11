@@ -276,7 +276,7 @@ public void ConfigureContainer(ContainerBuilder builder)
 ```
 ## EntitiyEnumAssembly.cs
 ```
-public class EntitiyEnumAssembly : IEntitiyEnumAssembly
+public class EntitiyEnumAssembly : Smart.Domain.IEntitiyEnumAssembly
 {
     public Assembly Assembly => typeof(EntitiyEnumAssembly).Assembly;
 }
