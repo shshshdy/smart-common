@@ -3,28 +3,28 @@
 ;邮箱
 -Email 1292934053@qq.com
 ;命名空间
--NameSpace CloudB.Car
+-NameSpace Cms
 ;包名,不填自动识别为实体名复数
 -Folder BusHandles
 ;程序集路径，支持相对路径，自动解释位置对应.xml文件取得注释
--Assmbly D:/work/source/CloudB.Car/CloudB.Car.Domain/bin/Debug/netcoreapp3.1/CloudB.Car.Domain.dll
+-Assmbly C:/work/source/cms-server/Cms.Domain/bin/Debug/net5.0/Cms.Domain.dll
 ;实体名 “,”号相连
--TableNames BusHandleCollectionDetail
+-TableNames Product,ProductDetail
 ;输出基础路径，不填自动识别为当前目录
--Out C:/Users/Administrator/Desktop/code
+-Out C:/Users/ssd/Desktop/code
 
 ;模板定义为“模板路径,生成路径”，生成路径可用“{关键词}”
--T Templates/Responsitory/Responsitory.cshtml,{NameSpace}.Repositories/{TableName}Responsitory.cs
--T Templates/Domain/Manager.cshtml,{NameSpace}.Domain/{Folder}/{TableName}Manager.cs
--T Templates/Domain/IManager.cshtml,{NameSpace}.Domain/{Folder}/Interfaces/I{TableName}Manager.cs
--T Templates/Domain/IResponsitory.cshtml,{NameSpace}.Domain/Responsitories/I{TableName}Responsitory.cs
+-T Templates/Responsitory/Responsitory.cshtml,{NameSpace}.Domain/Responsitories/{TableName}Responsitory.cs
+-T Templates/Domain/Manager.cshtml,{NameSpace}.Domain/Managers/{TableName}Manager.cs
+-T Templates/Domain/IManager.cshtml,{NameSpace}.Domain/Managers/Interfaces/I{TableName}Manager.cs
+-T Templates/Domain/IResponsitory.cshtml,{NameSpace}.Domain/Responsitories/Interfaces/I{TableName}Responsitory.cs
 ;-T Templates/Domain/Entity.cshtml,{NameSpace}.Domain/Entities/{TableName}.cs
--T Templates/Application/IService.cshtml,{NameSpace}.Application/{Folder}/Interfaces/I{TableName}Service.cs
--T Templates/Application/Service.cshtml,{NameSpace}.Application/{Folder}/{TableName}Service.cs
+-T Templates/Application/IService.cshtml,{NameSpace}.Application/Services/Interfaces/I{TableName}Service.cs
+-T Templates/Application/Service.cshtml,{NameSpace}.Application/Services/{TableName}Service.cs
 
--T Templates/Application/Dto/Input.cshtml,{NameSpace}.Application/{Folder}/Dto/{TableName}InputDto.cs
--T Templates/Application/Dto/Out.cshtml,{NameSpace}.Application/{Folder}/Dto/{TableName}OutputDto.cs
--T Templates/Application/Dto/ListOut.cshtml,{NameSpace}.Application/{Folder}/Dto/{TableName}ListOutputDto.cs
+-T Templates/Application/Dto/Input.cshtml,{NameSpace}.Application/Dtos/{TableName}Input.cs
+-T Templates/Application/Dto/Out.cshtml,{NameSpace}.Application/Dtos/{TableName}Output.cs
+-T Templates/Application/Dto/ListOut.cshtml,{NameSpace}.Application/Dtos/{TableName}ListOutput.cs
 -T Templates/Ui/Api.cshtml,{NameSpace}.Ui/src/api/{JsName}.js
 -T Templates/Ui/Vue.cshtml,{NameSpace}.Ui/src/views/{VuePath}/index.vue
 -T Templates/Ui/Module.cshtml,{NameSpace}.Ui/src/store/modules/cloudb/modules/{JsName}.js

@@ -5,56 +5,49 @@
 
 using System.Collections.Generic;
 using AutoMapper;
-using @(gen.NameSpace).Application.@(gen.Folder).Dto;
-using @(gen.NameSpace).Application.@(gen.Folder).interfaces;
-using @(gen.NameSpace).Domain.@(gen.Folder).Interfaces;
+using @(gen.NameSpace).Application.Dtos;
+using @(gen.NameSpace).Application.Services.interfaces;
+using @(gen.NameSpace).Domain.Managers.Interfaces;
 using @(gen.NameSpace).Domain.Entities;
-using @(gen.NameSpace).Infrastructure.Dto;
 using Microsoft.Extensions.Logging;
 using Panda.DynamicWebApi.Attributes;
 using Smart.Application;
 using Smart.Application.Attributes;
 using Smart.Infrastructure.Dto;
 
-namespace @(gen.NameSpace).Application.@(gen.Folder)
+namespace @(gen.NameSpace).Application.Services
 {
     [DynamicWebApi]
-    public class @(gen.TableName)Service: BaseService<@(gen.TableName)Service>
-    , I@(gen.TableName)Service
+    public class @(gen.TableName)Service: BaseService<@(gen.TableName)Service>, I@(gen.TableName)Service
     {
-    I@(gen.TableName)Manager _@(gen.TableName)Manager;
-    IMapper _mapper;
-    public @(gen.TableName)Service(I@(gen.TableName)Manager @(gen.TableName)Manager, IMapper mapper, ILogger<@(gen.TableName)Service>
-        logger):base(logger)
+        I@(gen.TableName)Manager _@(gen.TableName)Manager;
+        IMapper _mapper;
+        public @(gen.TableName)Service(I@(gen.TableName)Manager @(gen.TableName)Manager, IMapper mapper, ILogger<@(gen.TableName)Service> logger):base(logger)
         {
-        _@(gen.TableName)Manager = @(gen.TableName)Manager;
-        _mapper = mapper;
+            _@(gen.TableName)Manager = @(gen.TableName)Manager;
+            _mapper = mapper;
         }
         /// <summary>
-            /// 获取指定ID
-            ///
-        </summary>
+        /// 获取指定ID
+        ///</summary>
         ///<param name="id"></param>
         /// <returns></returns>
         public IResponseOutput Get(long id)
         {
-        var model =_@(gen.TableName)Manager.Get(id);
-        var result = _mapper.Map<@(gen.TableName)OutputDto>
-            (model);
-            return new ResponseOutput<@(gen.TableName)OutputDto>
-                (result);
-                }
-                /// <summary>
-                    /// 获取所有
-                    ///
-                </summary>
-                ///<param name="input"></param>
-                /// <returns></returns>
-                public IResponseOutput GetAll(@(gen.TableName)InputDto input)
-                {
-                var result = _@(gen.TableName)Manager.GetAll(input.PageIndex, input.PageSize);
-                var count = _@(gen.TableName)Manager.Count();
-                var output = new @(gen.TableName)ListOutputDto { List = _mapper.Map<List<@(gen.TableName)OutputDto>>(result), TotalPageSize = count };
+            var model =_@(gen.TableName)Manager.Get(id);
+            var result = _mapper.Map<@(gen.TableName)OutputDto>(model);
+            return new ResponseOutput<@(gen.TableName)OutputDto>(result);
+        }
+        /// <summary>
+        /// 获取所有
+        ///</summary>
+        ///<param name="input"></param>
+        /// <returns></returns>
+        public IResponseOutput GetAll(@(gen.TableName)InputDto input)
+        {
+            var result = _@(gen.TableName)Manager.GetAll(input.PageIndex, input.PageSize);
+            var count = _@(gen.TableName)Manager.Count();
+            var output = new @(gen.TableName)ListOutputDto { List = _mapper.Map<List<@(gen.TableName)OutputDto>>(result), TotalPageSize = count };
             return new ResponseOutput<@(gen.TableName)ListOutputDto>(output);
         }
 

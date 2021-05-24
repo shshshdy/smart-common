@@ -9,11 +9,12 @@
 // 邮箱：             @gen.UserInfo.Email
 //==============================================================
 using @(gen.NameSpace).Domain.Entities;
-using @(gen.NameSpace).Domain.Responsitories;
-using @(gen.NameSpace).Domain.@(gen.Folder).Interfaces;
+using @(gen.NameSpace).Domain.Responsitories.Interfaces;
+using @(gen.NameSpace).Domain.Managers.Interfaces;
 using System.Collections.Generic;
+using Smart.Infrastructure.Freesql;
 
-namespace @(gen.NameSpace).Domain.@gen.Folder
+namespace @(gen.NameSpace).Domain.Managers
 {
     public class @(gen.TableName)Manager : I@(gen.TableName)Manager
     {
@@ -31,7 +32,7 @@ namespace @(gen.NameSpace).Domain.@gen.Folder
 
         public IEnumerable<@(gen.TableName)> GetAll(int pageIndex, int pageSize)
         {
-            var result = _responsitory.Where(p => true).OrderBy(p => p.Id).ToPageList(pageIndex, pageSize);
+            var result = _responsitory.Select.OrderBy(p => p.Id).ToPageList(pageIndex, pageSize);
             return result;
         }
 

@@ -3,19 +3,18 @@
 }
 
 using @(gen.NameSpace).Domain.Entities;
-using @(gen.NameSpace).Domain.Responsitories;
+using @(gen.NameSpace).Domain.Responsitories.Interfaces;
 using Smart.Infrastructure.Authenticate;
 using Smart.Infrastructure.Freesql.Responsitories;
 using FreeSql;
 
-namespace @(gen.NameSpace).Repositories
+namespace @(gen.NameSpace).Domain.Responsitories
 {
-    public class @(gen.TableName)Responsitory : RepositoryBase<@(gen.TableName)>
-    , I@(gen.TableName)Responsitory
+    public class @(gen.TableName)Responsitory : RepositoryBase<@(gen.TableName)>, I@(gen.TableName)Responsitory
     {
-    public @(gen.TableName)Responsitory(IFreeSql orm, UnitOfWorkManager uow, IUser user) : base(orm, uow, user)
-    {
+        public @(gen.TableName)Responsitory(IFreeSql orm, UnitOfWorkManager uow, IUser user) : base(orm, uow, user)
+        {
 
+        }
     }
-    }
-    }
+}
