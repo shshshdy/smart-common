@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Description>DDD-基础设置-blazor共享</Description>
+    <PackageId>Smart.Shared.Shshshdy</PackageId>
+    <Authors>shshshdy</Authors>
+    <Company>SmartSoft</Company>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+</Project>

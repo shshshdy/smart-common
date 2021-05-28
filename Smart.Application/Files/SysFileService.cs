@@ -115,6 +115,8 @@ namespace Smart.Application.Files
             var result = _mapper.Map<SysFileOutputDto>(sysFile);
             return Ok(result);
         }
+
+        #region js前端上传
         /// <summary>
         /// 上传文件分片
         /// </summary>
@@ -324,6 +326,118 @@ namespace Smart.Application.Files
             {
                 System.IO.File.Delete(f.FileName);
             });
+        }
+        #endregion
+
+        #endregion
+
+        #region blazor前端 上传
+        /// <summary>
+        /// 上传附件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IResponseOutput> UploadAsync(FileInput input)
+        {
+            SysFile sysFile;
+            lock (_uploading)
+            {
+                sysFile = _sysFileManager.GetForMd5(input.Md5);
+                if (sysFile != null)
+                {
+                    if (sysFile.Uploaded)
+                    {
+                        //已经上传，无需再上传
+                        return new ResponseOutput<FileOutput>(new FileOutput { IsUploaded = true, Msg = "秒传成功!" });
+                    }
+                }
+                else
+                {
+                    sysFile = _sysFileManager.CreatOrUpdate(new SysFile
+                    {
+                        Md5 = input.Md5,
+                        FileName = GetFileName(input),
+                        FileDate = DateTime.Now.ToString("yyyyMMdd"),
+                        Uploaded = false
+                    });
+                }
+            }
+
+            if (input.IsComplate)
+            {
+                //合并切片文件
+                var filesList = Directory.GetFiles(GetTempPath(input));
+
+                using (var fileStream = new FileStream(GetFileFullPath(input), FileMode.Create))
+                {
+                    for (var i = 0; i < filesList.Length; i++)
+                    {
+                        using (FileStream fileChunk = new FileStream(GetTempFullPath(input, i), FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
+                            await fileChunk.CopyToAsync(fileStream);
+                        }
+                    }
+                };
+                Directory.Delete(GetTempPath(input), true);
+
+                //上传完成
+                sysFile.Uploaded = true;
+                _sysFileManager.CreatOrUpdate(sysFile);
+                return new ResponseOutput<FileOutput>(new FileOutput { IsUploaded = true, Msg = "上传成功!" });
+            }
+            else
+            {
+                //保存切片
+                using (var stream = new FileStream(GetTempFullPath(input, input.ChunkIndex), FileMode.Create))
+                {
+                    stream.Write(input.Stream, 0, input.Stream.Length);
+                }
+            }
+            return new ResponseOutput<FileOutput>(new FileOutput { IsUploaded = false, Msg = "上传中!" });
+        }
+        /// <summary>
+        /// 切片文件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private string GetTempFullPath(FileInput input, int index)
+        {
+            return Path.Combine(GetTempPath(input), index + ".tmp");
+        }
+
+        /// <summary>
+        /// 切片目录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string GetTempPath(FileInput input)
+        {
+            var path = Path.Combine(_appConfig.FilePath,TEMP_FOLDER, input.Guid);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+        /// <summary>
+        /// 完整文件路径
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string GetFileFullPath(FileInput input)
+        {
+            return Path.Combine(_appConfig.FilePath, input.Md5 + Path.GetExtension(input.FileName));
+        }
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string GetFileName(FileInput input)
+        {
+            return Path.Combine(input.Guid + Path.GetExtension(input.FileName));
         }
         #endregion
     }

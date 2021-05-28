@@ -6,12 +6,14 @@
     <PackageId>Smart.Domain.Shshshdy</PackageId>
     <Authors>shshshdy</Authors>
     <Company>SmartSoft</Company>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Smart.Infrastructure\Smart.Infrastructure.csproj" />
+    <ProjectReference Include="..\Smart.Shared\Smart.Shared.csproj" />
   </ItemGroup>
 
 </Project>

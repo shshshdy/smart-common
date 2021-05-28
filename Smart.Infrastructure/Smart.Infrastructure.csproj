@@ -8,6 +8,8 @@
     <Authors>shshshdy</Authors>
     <Company>SmartSoft</Company>
     <PackageId>Smart.Infrastructure.Shshshdy</PackageId>
+    <Description>DDD-基础设置</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
