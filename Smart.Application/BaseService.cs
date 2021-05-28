@@ -1,4 +1,4 @@
-﻿using Smart.Infrastructure.Dto;
+﻿using Smart.Shared.Dto;
 using Microsoft.Extensions.Logging;
 using System;
 

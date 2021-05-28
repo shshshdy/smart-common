@@ -1,6 +1,6 @@
 ﻿using Smart.Domain.Users.Interfaces;
 using Smart.Infrastructure.Authenticate;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

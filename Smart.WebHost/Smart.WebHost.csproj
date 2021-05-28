@@ -8,6 +8,7 @@
     <Company>SmartSoft</Company>
     <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
     <Description>DDD-接入层，JWT配置，freesql配置,automap配置，跨域配置,swagger等配置，文件下载服务</Description>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

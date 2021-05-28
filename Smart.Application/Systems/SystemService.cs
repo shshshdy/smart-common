@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using Smart.Application.Attributes;
 using Smart.Application.Systems.Dto;
@@ -7,7 +6,7 @@ using Smart.Application.Systems.interfaces;
 using Smart.Domain.Entities;
 using Smart.Domain.Entities.Enums;
 using Smart.Domain.Systems.Interfaces;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 using Smart.Infrastructure.Freesql.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

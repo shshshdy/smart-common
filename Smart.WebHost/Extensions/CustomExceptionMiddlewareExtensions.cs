@@ -6,7 +6,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 
 namespace Smart.Host.Extensions
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Smart.Infrastructure.Dto
+namespace Smart.Shared.Dto
 {
     public class FileInput
     {

@@ -1,7 +1,7 @@
 ﻿using Smart.Application.Dtos;
 using Smart.Application.Interfaces;
 using Smart.Application.Users.Dto;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 
 namespace Smart.Application.Users.interfaces
 {

@@ -1,6 +1,4 @@
-﻿using Smart.Infrastructure.Dto;
-
-namespace Smart.Infrastructure.Dto
+﻿namespace Smart.Shared.Dto
 {
     /// <summary>
     /// api返回值

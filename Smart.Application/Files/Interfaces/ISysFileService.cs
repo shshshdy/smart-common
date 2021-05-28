@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Smart.Application.Interfaces;
 using Smart.Application.Files.Dto;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 using Smart.Application.Files.Models;
 using System.Threading.Tasks;
 

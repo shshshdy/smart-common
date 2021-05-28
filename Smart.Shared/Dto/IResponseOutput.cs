@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Smart.Infrastructure.Dto
+namespace Smart.Shared.Dto
 {
     /// <summary>
     /// 输出数据接口

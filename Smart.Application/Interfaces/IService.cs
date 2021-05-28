@@ -1,8 +1,5 @@
-﻿using Smart.Infrastructure.Dto;
+﻿using Smart.Shared.Dto;
 using Panda.DynamicWebApi;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Smart.Application.Interfaces
 {

@@ -7,7 +7,7 @@ using Smart.Application.Files.Models;
 using Smart.Domain.Files.Interfaces;
 using Smart.Infrastructure.Authenticate;
 using Smart.Infrastructure.Configs;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 using Smart.Infrastructure.Freesql.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -333,12 +333,12 @@ namespace Smart.Application.Files
 
         #region blazor前端 上传
         /// <summary>
-        /// 上传附件
+        /// blazor上传附件
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IResponseOutput> UploadAsync(FileInput input)
+        public async Task<IResponseOutput> Upload2Async(FileInput input)
         {
             SysFile sysFile;
             lock (_uploading)

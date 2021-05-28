@@ -7,7 +7,7 @@ using Smart.Domain.Entities;
 using Smart.Domain.Users.Interfaces;
 using Smart.Infrastructure.Authenticate;
 using Smart.Infrastructure.Configs;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 using Smart.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
