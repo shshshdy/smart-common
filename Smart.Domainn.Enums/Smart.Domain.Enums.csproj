@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>shshshdy</Authors>
+    <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
+    <Description>DDD-检举字典</Description>
+    <PackageId>Smart.Domain.Enums.Shshshdy</PackageId>
+    <PackageVersion>1.0.4</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+</Project>
