@@ -7,6 +7,16 @@
     <Authors>shshshdy</Authors>
     <Company>SmartSoft</Company>
     <Version>1.0.2</Version>
+    <PackageVersion>1.0.5</PackageVersion>
+    <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\Base\" />
+    <Folder Include="Dto\System\" />
+    <Folder Include="Dto\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Smart.Domainn.Enums\Smart.Domain.Enums.csproj" />
+  </ItemGroup>
 </Project>

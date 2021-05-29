@@ -6,14 +6,18 @@
     <PackageId>Smart.Domain.Shshshdy</PackageId>
     <Authors>shshshdy</Authors>
     <Company>SmartSoft</Company>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
     <Version>1.0.1</Version>
+    <PackageVersion>1.0.5</PackageVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Smart.Infrastructure\Smart.Infrastructure.csproj" />
     <ProjectReference Include="..\Smart.Shared\Smart.Shared.csproj" />
+    <ProjectReference Include="..\Smart.Domainn.Enums\Smart.Domainn.Enums.csproj" />
   </ItemGroup>
 
 </Project>
