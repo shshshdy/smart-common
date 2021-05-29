@@ -8,4 +8,4 @@
 *.suo
 *.user
 *.DS_Store
-/Freesql.Tool/Properties/PublishProfiles
+**/PublishProfiles
