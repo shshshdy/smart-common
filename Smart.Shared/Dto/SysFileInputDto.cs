@@ -1,7 +1,7 @@
 
-using Smart.Application.Dtos;
+using Smart.Shared.Dtos;
 
-namespace Smart.Application.Files.Dto
+namespace Smart.Shared.Files.Dto
 {
     ///<summary>
     ///输入Dto

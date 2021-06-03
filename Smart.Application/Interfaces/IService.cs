@@ -1,5 +1,6 @@
 ﻿using Smart.Shared.Dto;
 using Panda.DynamicWebApi;
+using Smart.Shared.Interfaces;
 
 namespace Smart.Application.Interfaces
 {

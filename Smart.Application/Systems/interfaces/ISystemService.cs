@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Smart.Application.Interfaces;
-using Smart.Application.Systems.Dto;
+using Smart.Shared.Systems.Dto;
 using Smart.Shared.Dto;
 
 namespace Smart.Application.Systems.interfaces

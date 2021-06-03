@@ -1,8 +1,8 @@
 ﻿using System;
-using Smart.Application.Dtos;
 using Smart.Domain.Entities.Enums;
+using Smart.Shared.Dtos;
 
-namespace Smart.Application.Users.Dto
+namespace Smart.Shared.Users.Dto
 {
     public class UserOutputDto : BaseOutputDto
     {

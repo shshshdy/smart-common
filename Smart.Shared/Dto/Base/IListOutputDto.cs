@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Smart.Application.Interfaces
+namespace Smart.Shared.Interfaces
 {
     /// <summary>
     /// 返回数据集DTO

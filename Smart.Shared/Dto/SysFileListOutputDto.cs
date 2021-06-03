@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Smart.Application.Interfaces;
+using Smart.Shared.Interfaces;
 
-namespace Smart.Application.Files.Dto
+namespace Smart.Shared.Files.Dto
 {
     /// <summary>
     /// ÎÄ¼þÊä³ö

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Smart.Application.Interfaces
+﻿namespace Smart.Shared.Interfaces
 {
     /// <summary>
     /// 传参接口

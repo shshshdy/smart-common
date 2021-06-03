@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Smart.Application.Dtos
+namespace Smart.Shared.Dtos
 {
     /// <summary>
     /// 输出dto

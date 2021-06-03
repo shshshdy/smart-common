@@ -1,5 +1,4 @@
-﻿using System;
-namespace Smart.Application.Dtos
+﻿namespace Smart.Shared.Dtos
 {
     /// <summary>
     /// 基础dto

@@ -1,6 +1,6 @@
 ﻿using Smart.Domain.Entities.Enums;
 
-namespace Smart.Application.Users.Dto
+namespace Smart.Shared.Users.Dto
 {
     public class UserDto
     {

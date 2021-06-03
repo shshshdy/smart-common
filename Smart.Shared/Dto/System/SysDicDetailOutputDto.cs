@@ -1,7 +1,7 @@
 ﻿
-using Smart.Application.Dtos;
+using Smart.Shared.Dtos;
 
-namespace Smart.Application.Systems.Dto
+namespace Smart.Shared.Systems.Dto
 {
     ///<summary>
     ///SysDicDetail输入Dto

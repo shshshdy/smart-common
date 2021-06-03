@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Smart.Application.Attributes;
-using Smart.Application.Systems.Dto;
+using Smart.Shared.Systems.Dto;
 using Smart.Application.Systems.interfaces;
 using Smart.Domain.Entities;
 using Smart.Domain.Entities.Enums;
@@ -35,6 +35,7 @@ namespace Smart.Application.Systems
         /// <param name="systemManager"></param>
         /// <param name="dicManager"></param>
         /// <param name="mapper"></param>
+        /// <param name="entitiyEnumAssembly"></param>
         /// <param name="permissionManager"></param>
         /// <param name="logger"></param>
         public SystemService(ISysDicDetailManager systemManager, IEntitiyEnumAssembly entitiyEnumAssembly, ISysDicManager dicManager, IMapper mapper,IPermissionManager permissionManager, ILogger<SystemService> logger) : base(logger)

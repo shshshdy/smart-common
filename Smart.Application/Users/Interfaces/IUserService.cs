@@ -1,6 +1,6 @@
-﻿using Smart.Application.Dtos;
+﻿using Smart.Shared.Dtos;
 using Smart.Application.Interfaces;
-using Smart.Application.Users.Dto;
+using Smart.Shared.Users.Dto;
 using Smart.Shared.Dto;
 
 namespace Smart.Application.Users.interfaces

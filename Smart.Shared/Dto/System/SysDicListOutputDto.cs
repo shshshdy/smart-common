@@ -1,8 +1,8 @@
 ﻿
 using System.Collections.Generic;
-using Smart.Application.Interfaces;
+using Smart.Shared.Interfaces;
 
-namespace Smart.Application.Systems.Dto
+namespace Smart.Shared.Systems.Dto
 {
     /// <summary>
     /// 字典输出

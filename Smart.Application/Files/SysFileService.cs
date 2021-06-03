@@ -1,7 +1,7 @@
 
 using AutoMapper;
 using Smart.Application.Attributes;
-using Smart.Application.Files.Dto;
+using Smart.Shared.Files.Dto;
 using Smart.Application.Files.interfaces;
 using Smart.Application.Files.Models;
 using Smart.Domain.Files.Interfaces;
@@ -231,7 +231,7 @@ namespace Smart.Application.Files
         }
         private string GetFilePath(SysFile file, FileChunk chunk)
         {
-            var path = Path.Combine(GetFullPath(file),  $"{chunk.Md5}{Path.GetExtension(chunk.FileName)}");
+            var path = Path.Combine(GetFullPath(file), $"{chunk.Md5}{Path.GetExtension(chunk.FileName)}");
             return path;
         }
         private bool IsMultipartContentType(string contentType)
@@ -258,7 +258,7 @@ namespace Smart.Application.Files
                 .Trim('"');
         }
 
-        private async Task MergeChunkFile(SysFile sysFile,FileChunk chunk)
+        private async Task MergeChunkFile(SysFile sysFile, FileChunk chunk)
         {
             var uploadDirectoryName = Path.Combine(_appConfig.FilePath, TEMP_FOLDER);
 
@@ -369,7 +369,7 @@ namespace Smart.Application.Files
                 //合并切片文件
                 var filesList = Directory.GetFiles(GetTempPath(input));
 
-                using (var fileStream = new FileStream(GetFileFullPath(input), FileMode.Create))
+                using (var fileStream = new FileStream(GetFileFullPath(input,sysFile), FileMode.Create))
                 {
                     for (var i = 0; i < filesList.Length; i++)
                     {
@@ -414,7 +414,7 @@ namespace Smart.Application.Files
         /// <returns></returns>
         private string GetTempPath(FileInput input)
         {
-            var path = Path.Combine(_appConfig.FilePath,TEMP_FOLDER, input.Guid);
+            var path = Path.Combine(_appConfig.FilePath, TEMP_FOLDER, input.Guid);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -425,10 +425,12 @@ namespace Smart.Application.Files
         /// 完整文件路径
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="file"></param>
         /// <returns></returns>
-        private string GetFileFullPath(FileInput input)
+        private string GetFileFullPath(FileInput input, SysFile file)
         {
-            return Path.Combine(_appConfig.FilePath, input.Md5 + Path.GetExtension(input.FileName));
+            var path = Path.Combine(_appConfig.FilePath, file.FileDate, _user.Id.ToString(), input.Md5 + Path.GetExtension(input.FileName));
+            return path;
         }
         /// <summary>
         /// 文件名

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Smart.Application.Users.Dto
+namespace Smart.Shared.Users.Dto
 {
     public class UserSearchOutputDto
     {

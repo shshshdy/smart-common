@@ -6,8 +6,8 @@
     <PackageId>Smart.Shared.Shshshdy</PackageId>
     <Authors>shshshdy</Authors>
     <Company>SmartSoft</Company>
-    <Version>1.0.2</Version>
-    <PackageVersion>1.0.5</PackageVersion>
+    <Version>1.0.6</Version>
+    <PackageVersion>1.0.6</PackageVersion>
     <PackageProjectUrl>https://github.com/shshshdy/smart-common</PackageProjectUrl>
   </PropertyGroup>
 

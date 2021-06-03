@@ -1,10 +1,10 @@
 
 using System.Collections.Generic;
-using Smart.Application.Interfaces;
-using Smart.Application.Files.Dto;
+using Smart.Shared.Files.Dto;
 using Smart.Shared.Dto;
 using Smart.Application.Files.Models;
 using System.Threading.Tasks;
+using Smart.Application.Interfaces;
 
 namespace Smart.Application.Files.interfaces
 {

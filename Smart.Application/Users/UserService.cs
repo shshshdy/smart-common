@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Smart.Application.Attributes;
-using Smart.Application.Dtos;
-using Smart.Application.Users.Dto;
+using Smart.Shared.Dtos;
+using Smart.Shared.Users.Dto;
 using Smart.Application.Users.interfaces;
 using Smart.Domain.Entities;
 using Smart.Domain.Users.Interfaces;
@@ -149,6 +149,11 @@ namespace Smart.Application.Users
 
             return new AuthenticateDto { IsAuthenticated = false };
         }
+        /// <summary>
+        /// 登录校验
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public IResponseOutput Login(UserInputDto request)
         {

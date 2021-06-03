@@ -5,8 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using Smart.Domain.Files.Interfaces;
 using Smart.Host.Helpers;
 using Smart.Infrastructure.Configs;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Net;
 using IoFile = System.IO.File;
 namespace Smart.Host.Controllers
@@ -46,6 +48,12 @@ namespace Smart.Host.Controllers
         [Route("api/SysFileService/download")]
         public IActionResult Download(string md5, string token)
         {
+            if (!CheckReferer())
+            {
+                _logger.LogError($"非安全域名访问：{GetHost()}");
+                return new StatusCodeResult((int)HttpStatusCode.NotAcceptable);
+            }
+
             var jwthandle = new JwtSecurityTokenHandler();
             if (string.IsNullOrEmpty(token) || !jwthandle.CanReadToken(token))
             {
@@ -76,6 +84,48 @@ namespace Smart.Host.Controllers
             new FileExtensionContentTypeProvider().Mappings.TryGetValue(Path.GetExtension(path), out var contenttype);
             var stream = IoFile.OpenRead(path);
             return File(stream, contenttype ?? "application/octet-stream", file.FileName);
+        }
+        /// <summary>
+        /// 文件下载
+        /// </summary>
+        /// <param name="md5"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/SysFileService/download2")]
+        public IActionResult Download(string md5)
+        {
+            if (!CheckReferer())
+            {
+                _logger.LogError($"非安全域名访问：{GetHost()}");
+                return new StatusCodeResult((int)HttpStatusCode.NotAcceptable);
+            }
+             var file = _sysFileManager.GetForMd5(md5);
+            if (file == null)
+            {
+                _logger.LogError($"文件不存在：{md5}!");
+                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+            }
+            var path = Path.Combine(_appConfig.FilePath, file.FileDate, file.CreatedUserId.ToString(), $"{md5}{Path.GetExtension(file.FileName)}");
+            if (!IoFile.Exists(path))
+            {
+                _logger.LogError($"文件不存在：{md5}!");
+                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+            }
+            new FileExtensionContentTypeProvider().Mappings.TryGetValue(Path.GetExtension(path), out var contenttype);
+            var stream = IoFile.OpenRead(path);
+            return File(stream, contenttype ?? "application/octet-stream", file.FileName);
+        }
+
+        private bool CheckReferer()
+        {
+            var host = GetHost();
+            return _appConfig.Urls.Split("|").Any(p => p.StartsWith(host));
+        }
+        private string GetHost()
+        {
+            var referer = Request.Headers["Referer"];
+            var url = new Uri(referer);
+            return $"{url.Scheme}://{url.Host}";
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Smart.Application.Files.Dto;
-using Smart.Application.Systems.Dto;
-using Smart.Application.Users.Dto;
+using Smart.Shared.Files.Dto;
+using Smart.Shared.Systems.Dto;
+using Smart.Shared.Users.Dto;
 using Smart.Domain.Entities;
 using Smart.Infrastructure.Freesql.Entities;
 

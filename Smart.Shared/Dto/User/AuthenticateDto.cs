@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Smart.Application.Users.Dto
+namespace Smart.Shared.Users.Dto
 {
     public class AuthenticateDto
     {
