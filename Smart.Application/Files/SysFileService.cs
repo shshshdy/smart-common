@@ -429,7 +429,12 @@ namespace Smart.Application.Files
         /// <returns></returns>
         private string GetFileFullPath(FileInput input, SysFile file)
         {
-            var path = Path.Combine(_appConfig.FilePath, file.FileDate, _user.Id.ToString(), input.Md5 + Path.GetExtension(input.FileName));
+            var dir = Path.Combine(_appConfig.FilePath, file.FileDate, _user.Id.ToString());
+            var path = Path.Combine(dir, input.Md5 + Path.GetExtension(input.FileName));
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
             return path;
         }
         /// <summary>
