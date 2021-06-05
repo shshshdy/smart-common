@@ -119,13 +119,23 @@ namespace Smart.Host.Controllers
         private bool CheckReferer()
         {
             var host = GetHost();
+            if (string.IsNullOrEmpty(host))
+            {
+                return _appConfig.NullReferer;
+            }
             return _appConfig.Urls.Split("|").Any(p => p.StartsWith(host));
         }
         private string GetHost()
         {
+            if (!Request.Headers.ContainsKey("Referer"))
+            {
+                _logger.LogError($"Referer：为空!");
+                return null;
+            }
             var referer = Request.Headers["Referer"];
             var url = new Uri(referer);
             return $"{url.Scheme}://{url.Host}";
         }
+
     }
 }

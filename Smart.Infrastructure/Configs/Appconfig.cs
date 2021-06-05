@@ -47,5 +47,9 @@ namespace Smart.Infrastructure.Configs
         ///目录访问密码
         /// </summary>
         public string FilePwd { get; set; }
+        /// <summary>
+        /// 直接文件下载
+        /// </summary>
+        public bool NullReferer { get; set; } = true;
     }
 }
