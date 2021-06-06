@@ -4,9 +4,9 @@
     var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
 }
 using System.Collections.Generic;
-using Smart.Application.Interfaces;
+using Smart.Shared.Interfaces;
 
-namespace @(gen.NameSpace).Application.Dtos
+namespace @(gen.NameSpace).Shared.Dtos
 {
     public class @(gen.TableName)ListOutputDto : IListOutputDto<@(gen.TableName)OutputDto>
     {

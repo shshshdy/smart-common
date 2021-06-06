@@ -9,7 +9,7 @@
 ;程序集路径，支持相对路径，自动解释位置对应.xml文件取得注释
 -Assmbly C:/work/source/cms-server/Cms.Domain/bin/Debug/net5.0/Cms.Domain.dll
 ;实体名 “,”号相连
--TableNames Product,ProductDetail
+-TableNames Banner
 ;输出基础路径，不填自动识别为当前目录
 -Out C:/Users/ssd/Desktop/code
 
@@ -22,9 +22,9 @@
 -T Templates/Application/IService.cshtml,{NameSpace}.Application/Services/Interfaces/I{TableName}Service.cs
 -T Templates/Application/Service.cshtml,{NameSpace}.Application/Services/{TableName}Service.cs
 
--T Templates/Application/Dto/Input.cshtml,{NameSpace}.Application/Dtos/{TableName}Input.cs
--T Templates/Application/Dto/Out.cshtml,{NameSpace}.Application/Dtos/{TableName}Output.cs
--T Templates/Application/Dto/ListOut.cshtml,{NameSpace}.Application/Dtos/{TableName}ListOutput.cs
+-T Templates/Application/Dto/Input.cshtml,{NameSpace}.Shared/Dtos/{TableName}Input.cs
+-T Templates/Application/Dto/Out.cshtml,{NameSpace}.Shared/Dtos/{TableName}Output.cs
+-T Templates/Application/Dto/ListOut.cshtml,{NameSpace}.Shared/Dtos/{TableName}ListOutput.cs
 -T Templates/Ui/Api.cshtml,{NameSpace}.Ui/src/api/{JsName}.js
 -T Templates/Ui/Vue.cshtml,{NameSpace}.Ui/src/views/{VuePath}/index.vue
 -T Templates/Ui/Module.cshtml,{NameSpace}.Ui/src/store/modules/cloudb/modules/{JsName}.js

@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 using AutoMapper;
-using @(gen.NameSpace).Application.Dtos;
+using @(gen.NameSpace).Shared.Dtos;
 using @(gen.NameSpace).Application.Services.interfaces;
 using @(gen.NameSpace).Domain.Managers.Interfaces;
 using @(gen.NameSpace).Domain.Entities;
@@ -13,18 +13,18 @@ using Microsoft.Extensions.Logging;
 using Panda.DynamicWebApi.Attributes;
 using Smart.Application;
 using Smart.Application.Attributes;
-using Smart.Infrastructure.Dto;
+using Smart.Shared.Dto;
 
 namespace @(gen.NameSpace).Application.Services
 {
     [DynamicWebApi]
     public class @(gen.TableName)Service: BaseService<@(gen.TableName)Service>, I@(gen.TableName)Service
     {
-        I@(gen.TableName)Manager _@(gen.TableName)Manager;
+        I@(gen.TableName)Manager _manager;
         IMapper _mapper;
         public @(gen.TableName)Service(I@(gen.TableName)Manager @(gen.TableName)Manager, IMapper mapper, ILogger<@(gen.TableName)Service> logger):base(logger)
         {
-            _@(gen.TableName)Manager = @(gen.TableName)Manager;
+            _manager = @(gen.TableName)Manager;
             _mapper = mapper;
         }
         /// <summary>
@@ -34,9 +34,9 @@ namespace @(gen.NameSpace).Application.Services
         /// <returns></returns>
         public IResponseOutput Get(long id)
         {
-            var model =_@(gen.TableName)Manager.Get(id);
+            var model =_manager.Get(id);
             var result = _mapper.Map<@(gen.TableName)OutputDto>(model);
-            return new ResponseOutput<@(gen.TableName)OutputDto>(result);
+            return Ok(result);
         }
         /// <summary>
         /// 获取所有
@@ -45,10 +45,10 @@ namespace @(gen.NameSpace).Application.Services
         /// <returns></returns>
         public IResponseOutput GetAll(@(gen.TableName)InputDto input)
         {
-            var result = _@(gen.TableName)Manager.GetAll(input.PageIndex, input.PageSize);
-            var count = _@(gen.TableName)Manager.Count();
+            var result = _manager.GetAll(input.PageIndex, input.PageSize);
+            var count = _manager.Count();
             var output = new @(gen.TableName)ListOutputDto { List = _mapper.Map<List<@(gen.TableName)OutputDto>>(result), TotalPageSize = count };
-            return new ResponseOutput<@(gen.TableName)ListOutputDto>(output);
+            return Ok(output);
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace @(gen.NameSpace).Application.Services
         ///</summary>
         ///<param name="dto"></param>
         /// <returns></returns>
-        public @(gen.TableName) RegisterOrUpdate(@(gen.TableName)OutputDto dto)
+        public IResponseOutput RegisterOrUpdate(@(gen.TableName)OutputDto dto)
         {
-            var result = _@(gen.TableName)Manager.CreatOrUpdate(_mapper.Map<@(gen.TableName)>(dto));
-            return result;
+            var result = _manager.CreatOrUpdate(_mapper.Map<@(gen.TableName)>(dto));
+            return Ok(_mapper.Map<@(gen.TableName)OutputDto>(result));
         }
     }
 }
