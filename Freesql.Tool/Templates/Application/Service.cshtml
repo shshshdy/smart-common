@@ -22,9 +22,9 @@ namespace @(gen.NameSpace).Application.Services
     {
         I@(gen.TableName)Manager _manager;
         IMapper _mapper;
-        public @(gen.TableName)Service(I@(gen.TableName)Manager @(gen.TableName)Manager, IMapper mapper, ILogger<@(gen.TableName)Service> logger):base(logger)
+        public @(gen.TableName)Service(I@(gen.TableName)Manager manager, IMapper mapper, ILogger<@(gen.TableName)Service> logger):base(logger)
         {
-            _manager = @(gen.TableName)Manager;
+            _manager = manager;
             _mapper = mapper;
         }
         /// <summary>
