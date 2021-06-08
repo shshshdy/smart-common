@@ -9,5 +9,7 @@
         public string AssemblyOrConnect { get; set; }
 
         public string OutPath { get; set; }
+
+        public string LowerTableName => TableName.Substring(0, 1).ToLower() + TableName.Substring(1);
     }
 }

@@ -1,0 +1,68 @@
+﻿@using Freesql.Tool.Helpers
+@{
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+@@page "/@(gen.LowerTableName)"
+@@inherits BasePage
+@@using Cms.Shared.Dtos
+<SPage Routers="Routers" Loading="Loading">
+    <Body>
+        <Table TItem="@(gen.TableName)OutputDto" DataSource="Data" OnRowClick="OnRowClick" HidePagination="true">
+            <Column @@bind-Field="context.Name">
+                <a @@onclick="@@(_=>Detail(context))">@@context.Name</a>
+            </Column>
+            <Column @@bind-Field="context.Description"></Column>
+            <Column @@bind-Field="context.SubDescription" Title="子描述"></Column>
+            <ActionColumn Title="操作" TitleTemplate="Action">
+                <Space Size=@@("middle")>
+                    <SpaceItem>
+                        <a @@onclick="@@(_=>Edit(context))">编辑</a>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Popconfirm Title="确认删除吗?"
+                                    OnConfirm="()=>Del(context)"
+                                    OkText="确定"
+                                    CancelText="取消">
+                            <a>删除</a>
+                        </Popconfirm>
+
+                    </SpaceItem>
+                </Space>
+            </ActionColumn>
+        </Table>
+        <div class="nav-page">
+            <Pagination Total="TotalSize"
+                        ShowTotal="Total"
+                        ShowSizeChanger="true"
+                        PageSize="InputDto.PageSize"
+                        OnChange="Change"
+                        DefaultCurrent="InputDto.PageIndex"
+                        PageSizeOptions="PageSizeOptions" />
+        </div>
+
+    </Body>
+</SPage>
+<Modal Title="添加"
+       Visible="ShowEdit"
+       OnOk="Submit"
+       OnCancel="Cancel"
+       OkText="@@(" 保存")"
+       CancelText="@@(" 取消")">
+    <Form Model="Entity"
+          LabelColSpan="8"
+          WrapperColSpan="16">
+        <FormItem Label="名称">
+            <Input @@bind-Value="context.Name" />
+        </FormItem>
+        <FormItem Label="描述">
+            <TextArea @@bind -Value="context.Description" />
+        </FormItem>
+    </Form>
+</Modal>
+
+
+@@code{
+    RenderFragment Action =>@@<a @@onclick="_=>Add()"> <Icon Type="plus" /> 操作 </a>;
+    Func<PaginationTotalContext, string>
+    Total = ctx => $"总共 {ctx.Total} 条";
+    }

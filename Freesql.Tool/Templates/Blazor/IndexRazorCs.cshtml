@@ -1,0 +1,131 @@
+﻿@using Freesql.Tool.Helpers
+@{
+    var gen = Model as Freesql.Tool.Models.RazorTemplateModel;
+}
+using AntDesign;
+using AntDesign.TableModels;
+using Cms.Shared.Dtos;
+using Smart.Shared.Dto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Cms.Admin.Pages.@(gen.TableName)
+{
+    public partial class Index
+    {
+        bool ShowEdit { get; set; }
+        int TotalSize { get; set; }
+        @(gen.TableName)InputDto InputDto { get; set; }
+
+        IEnumerable<@(gen.TableName)OutputDto> Data { get; set; }
+
+        @(gen.TableName)OutputDto Entity { get; set; }
+        public Index()
+        {
+            Routers = new string[] { "首页", "产品管理" };
+            InputDto = new @(gen.TableName)InputDto { PageIndex = 1, PageSize = 10 };
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            await InitData();
+        }
+        private async Task InitData()
+        {
+            var resutlt = await HttpSercice.Get<ResponseOutput<@(gen.TableName)ListOutputDto>>("/api/@(gen.TableName)Service/All", InputDto);
+            if (resutlt != null)
+            {
+            Data = resutlt.Data.List;
+            TotalSize = Convert.ToInt32(resutlt.Data.TotalPageSize);
+            }
+            StateHasChanged();
+        }
+        async Task Change(PaginationEventArgs e)
+        {
+            InputDto.PageIndex = e.Page;
+            InputDto.PageSize = e.PageSize;
+            Loading = true;
+            StateHasChanged();
+            await InitData();
+            Loading = false;
+            StateHasChanged();
+        }
+        void OnRowClick(RowData<@(gen.TableName)OutputDto> row)
+        {
+            //Message.Info($"row {row.Data.Id} was clicked.");
+        }
+
+        void Add()
+        {
+            ShowEdit = true;
+            Entity = new @(gen.TableName)OutputDto();
+        }
+        void Edit(@(gen.TableName)OutputDto dto)
+        {
+            ShowEdit = true;
+            Entity = Clone(dto);
+        }
+        async void Del(@(gen.TableName)OutputDto dto)
+        {
+            if (Loading)
+            {
+                _ = Message.Info("执行中!");
+            }
+            Loading = true;
+            var result = await HttpSercice.Delete<ResponseOutput<bool>>("/api/@(gen.TableName)Service?id=" + dto.Id);
+            Loading = false;
+            if (result.Success)
+            {
+                _ = Message.Success($"成功删除:{dto.Name} !");
+                _ = InitData();
+            }
+            else
+            {
+                _ = Message.Error($"删除失败:{result.Msg} !");
+            }
+        }
+        void Detail(@(gen.TableName)OutputDto dto)
+        {
+            ToPage($"@(gen.LowerTableName)/detail/{dto.Id}");
+        }
+
+        async void Submit()
+        {
+            if (Loading) return;
+            if (string.IsNullOrEmpty(Entity.Name))
+            {
+                _ = Message.Info("名称未填写!");
+                return;
+            }
+            if (string.IsNullOrEmpty(Entity.Description))
+            {
+                _ = Message.Info("描述未填写!");
+                return;
+            }
+            Loading = true;
+            var result = await HttpSercice.Post<ResponseOutput<@(gen.TableName)OutputDto>>("/api/@(gen.TableName)Service/RegisterOrUpdate", Entity);
+            Loading = false;
+            if (result.Success)
+            {
+                Entity = result.Data;
+                ShowEdit = false;
+                StateHasChanged();
+                _ = InitData();
+                _ = Message.Success("保存成功!");
+
+            }
+            else
+            {
+                _ = Message.Success(result.Msg);
+            }
+
+        }
+        void Cancel()
+        {
+            ShowEdit = false;
+        }
+    }
+}

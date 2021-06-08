@@ -25,6 +25,10 @@
 -T Templates/Application/Dto/Input.cshtml,{NameSpace}.Shared/Dtos/{TableName}Input.cs
 -T Templates/Application/Dto/Out.cshtml,{NameSpace}.Shared/Dtos/{TableName}Output.cs
 -T Templates/Application/Dto/ListOut.cshtml,{NameSpace}.Shared/Dtos/{TableName}ListOutput.cs
+
+-T Templates/Blazor/IndexRazor.cshtml,{NameSpace}.Admin/Pages/{TableName}/Index.razor.cshtml
+-T Templates/Blazor/IndexRazorCs.cshtml,{NameSpace}.Admin/Pages/{TableName}/Index.razor.cs
+
 -T Templates/Ui/Api.cshtml,{NameSpace}.Ui/src/api/{JsName}.js
 -T Templates/Ui/Vue.cshtml,{NameSpace}.Ui/src/views/{VuePath}/index.vue
 -T Templates/Ui/Module.cshtml,{NameSpace}.Ui/src/store/modules/cloudb/modules/{JsName}.js
