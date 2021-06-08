@@ -4,7 +4,7 @@
     {
         public CopyRightUserInfo UserInfo { get; set; }
         public string TableName { get; set; }
-        public string NameSpace { get; set; } = "CloudB.Car.";
+        public string NameSpace { get; set; } = "Demo";
         public string Folder { get; set; }
         public string AssemblyOrConnect { get; set; }
 
