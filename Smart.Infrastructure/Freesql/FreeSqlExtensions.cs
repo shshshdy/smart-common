@@ -109,7 +109,7 @@ namespace Smart.Infrastructure.Freesql
                 if (e.CurdType == FreeSql.Aop.CurdType.Insert || e.CurdType == FreeSql.Aop.CurdType.Update)
                 {
                     //文件，更新为已使用
-                    if (e.EntityType!=typeof(SysFile) && _md5s.Any())
+                    if (_md5s.Any() && e.EntityType!=typeof(SysFile))
                     {
                         var file = services.BuildServiceProvider().GetService<ISysFileResponsitory>();
                         file.UpdateDiy.Set(p => p.Used, true).Where(p => _md5s.Contains(p.Md5) && p.Uploaded && !p.Used).ExecuteAffrows();
