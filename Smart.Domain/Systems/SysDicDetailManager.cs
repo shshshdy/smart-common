@@ -72,7 +72,7 @@ namespace Smart.Domain.Systems
                 .Where(p => p.Enabled)
                 .Include(p => p.SysDic)
                 .OrderBy(p => p.DicId).OrderBy(p => p.Order)
-                .ToPageList(pageIndex,pageSize);
+                .ToPageList(pageIndex, pageSize);
             return result;
         }
 
@@ -121,7 +121,7 @@ namespace Smart.Domain.Systems
             {
                 return null;
             }
-            var result = _responsitory.Where(p => p.DicId == dic.Id && p.Enabled).ToList();
+            var result = _responsitory.Where(p => p.DicId == dic.Id && p.Enabled).OrderBy(p => p.Order).ToList();
             return result;
         }
     }
